@@ -112,6 +112,6 @@ button {
     color: #ff5722;
     font-size: 1rem;
     text-align: center;
-    margin-top: 20px; /* Espacement par rapport au texte de l'anagramme */
+    margin-top: 120px; /* Espacement par rapport au texte de l'anagramme */
     display: none; /* Initialement caché */
 }
