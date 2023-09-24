@@ -1,0 +1,19 @@
+{
+  "name": "anagram3d",
+  "version": "1.0.0",
+  "description": "Jeu d'anagramme culinaire",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server"
+  },
+  "author": "Doric Ngouffo",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "fs-extra": "^11.1.1",
+    "path": "^0.12.7"
+  }
+}

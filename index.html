@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anagramme Culinaire 3D</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+    <div id="scene-container"></div>
+    <div id="score-container">
+		<a id="help" href="help.html" target="_blank">Aide</a>
+        Score : <span id="score">0</span>
+		<p id="foodDescription" style="display: none;"></p>
+    </div>
+	<div id="button-container">
+		<button id="startButton">Start</button>
+		<button id="showAnswerButton" style="display: none;">Montrer la réponse</button>
+		<button id="nextAnagramButton" style="display: none;">Passer au prochain anagramme</button>
+	</div>
+	<div id="guess-input-container">
+		<input id="guessInput" type="text" placeholder="Devinez le mot">
+	</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.2.3/howler.min.js"></script>
+	
+	<!-- Include your anagramme.js script -->
+	<script src="anagramme.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

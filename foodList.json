@@ -1,0 +1,377 @@
+[
+    {
+        "name":"pomme",
+        "anagram":"mepmo",
+        "description":"Un fruit rond et juteux souvent utilisé dans les tartes."
+    },
+    {
+        "name":"banane",
+        "anagram":"anbane",
+        "description":"Un fruit allongé et sucré, souvent consommé comme collation."
+    },
+    {
+        "name":"carotte",
+        "anagram":"cottare",
+        "description":"Un légume orange souvent utilisé en cuisine."
+    },
+    {
+        "name":"tomate",
+        "anagram":"ometat",
+        "description":"Un légume-fruit rouge couramment utilisé dans les salades et les sauces."
+    },
+    {
+        "name":"poire",
+        "anagram":"reipo",
+        "description":"Un fruit en forme de poire, sucré et juteux."
+    },
+    {
+        "name":"fraise",
+        "anagram":"eirafs",
+        "description":"Un petit fruit rouge délicieux souvent utilisé dans les desserts."
+    },
+    {
+        "name":"brocoli",
+        "anagram":"olicorb",
+        "description":"Un légume vert en forme de tête, riche en nutriments."
+    },
+    {
+        "name":"aubergine",
+        "anagram":"egirbnaue",
+        "description":"Un légume violet souvent utilisé dans les plats méditerranéens."
+    },
+    {
+        "name":"champignon",
+        "anagram":"championnig",
+        "description":"Un champignon comestible souvent utilisé en cuisine."
+    },
+    {
+        "name":"citron",
+        "anagram":"noritc",
+        "description":"Un agrume jaune et acidulé utilisé pour son jus et son zeste."
+    },
+    {
+        "name":"courgette",
+        "anagram":"goutterice",
+        "description":"Un légume vert en forme de courge souvent utilisé dans les plats sautés."
+    },
+    {
+        "name":"kiwi",
+        "anagram":"iwik",
+        "description":"Un fruit vert et velu, riche en vitamine C."
+    },
+    {
+        "name":"ananas",
+        "anagram":"sanana",
+        "description":"Un fruit tropical sucré et juteux."
+    },
+    {
+        "name":"mangue",
+        "anagram":"magnue",
+        "description":"Un fruit tropical orange et sucré."
+    },
+    {
+        "name":"poivron",
+        "anagram":"orvopin",
+        "description":"Un légume coloré souvent utilisé dans les plats cuisinés."
+    },
+    {
+        "name":"oignon",
+        "anagram":"pauestèq",
+        "description":"Un légume à la saveur forte souvent utilisé en cuisine."
+    },
+    {
+        "name":"raisin",
+        "anagram":"nisair",
+        "description":"Un petit fruit sucré souvent utilisé pour faire du vin."
+    },
+    {
+        "name":"pastèque",
+        "anagram":"tequesap",
+        "description":"Un fruit d'été, généralement composé de chair rouge sucrée."
+    },
+    {
+        "name":"avocat",
+        "anagram":"votaca",
+        "description":"Un fruit crémeux à la peau verte, souvent utilisé dans les guacamoles."
+    },
+    {
+        "name":"cerise",
+        "anagram":"reices",
+        "description":"Un petit fruit rouge ou noir sucré souvent utilisé dans les desserts."
+    },
+    {
+        "name":"framboise",
+        "anagram":"sofaimber",
+        "description":"Un petit fruit rouge ou violet, sucré et parfumé."
+    },
+    {
+        "name":"noix",
+        "anagram":"xion",
+        "description":"Un fruit à coque généralement consommé en collation."
+    },
+    {
+        "name":"abricot",
+        "anagram":"citorba",
+        "description":"Un petit fruit orange ou jaune, sucré et parfumé."
+    },
+    {
+        "name":"myrtille",
+        "anagram":"millytre",
+        "description":"Un petit fruit bleu foncé souvent utilisé dans les desserts."
+    },
+    {
+        "name":"radis",
+        "anagram":"sidar",
+        "description":"Un légume-racine rouge ou rose souvent utilisé dans les salades."
+    },
+    {
+        "name":"pamplemousse",
+        "anagram":"amplepoussme",
+        "description":"Un agrume géant et juteux, similaire à l'orange mais plus gros."
+    },
+    {
+        "name":"mûre",
+        "anagram":"mreu",
+        "description":"Un petit fruit noir ou violet, sucré et juteux."
+    },
+    {
+        "name":"asperge",
+        "anagram":"gepaser",
+        "description":"Un légume vert en forme de tige, souvent utilisé dans les plats grillés."
+    },
+    {
+        "name":"haricot",
+        "anagram":"otirach",
+        "description":"Un légume en forme de gousse, souvent utilisé dans les plats cuits."
+    },
+    {
+        "name":"miel",
+        "anagram":"leim",
+        "description":"Un produit sucré produit par les abeilles."
+    },
+    {
+        "name":"laitue",
+        "anagram":"utaile",
+        "description":"Un légume-feuille vert souvent utilisé dans les salades."
+    },
+    {
+        "name":"orange",
+        "anagram":"egnaro",
+        "description":"Un agrume orange et juteux."
+    },
+    {
+        "name":"cassis",
+        "anagram":"assisc",
+        "description":"Un petit fruit noir souvent utilisé dans les desserts."
+    },
+    {
+        "name":"ail",
+        "anagram":"lia",
+        "description":"Un aromate à la saveur piquante souvent utilisé en cuisine."
+    },
+    {
+        "name":"poivre",
+        "anagram":"verpoi",
+        "description":"Un condiment utilisé pour assaisonner les plats."
+    },
+    {
+        "name":"pêche",
+        "anagram":"cheep",
+        "description":"Un fruit sucré et juteux souvent consommé frais."
+    },
+    {
+        "name":"grenade",
+        "anagram":"agreend",
+        "description":"Un fruit rouge ou rose, sucré et acidulé, rempli de graines."
+    },
+    {
+        "name":"betterave",
+        "anagram":"rbeettave",
+        "description":"Un légume-racine rouge souvent utilisé en salade ou cuit."
+    },
+    {
+        "name":"figue",
+        "anagram":"eguif",
+        "description":"Un petit fruit sucré, souvent consommé frais ou séché."
+    },
+    {
+        "name":"noisette",
+        "anagram":"setoison",
+        "description":"Une petite noix généralement consommée comme collation."
+    },
+    {
+        "name":"épinard",
+        "anagram":"dnarpie",
+        "description":"Un légume-feuille vert foncé souvent utilisé dans les plats cuits."
+    },
+    {
+        "name":"aneth",
+        "anagram":"thane",
+        "description":"Une herbe aromatique utilisée en cuisine."
+    },
+    {
+        "name":"piment",
+        "anagram":"timenp",
+        "description":"Un condiment épicé souvent utilisé dans les plats."
+    },
+    {
+        "name":"ciboulette",
+        "anagram":"letcibeout",
+        "description":"Une herbe aromatique utilisée pour assaisonner les plats."
+    },
+    {
+        "name":"cardamome",
+        "anagram":"omedaracm",
+        "description":"Une épice aromatique souvent utilisée en cuisine."
+    },
+    {
+        "name":"coriandre",
+        "anagram":"erricadno",
+        "description":"Une herbe aromatique utilisée en cuisine."
+    },
+    {
+        "name":"persil",
+        "anagram":"rileps",
+        "description":"Une herbe aromatique verte souvent utilisée en cuisine."
+    },
+    {
+        "name":"curcuma",
+        "anagram":"acmucur",
+        "description":"Une épice jaune souvent utilisée dans la cuisine indienne."
+    },
+    {
+        "name":"cannelle",
+        "anagram":"elnancel",
+        "description":"Une épice sucrée souvent utilisée dans les desserts."
+    },
+    {
+        "name":"menthe",
+        "anagram":"themen",
+        "description":"Une herbe aromatique fraîche souvent utilisée en cuisine."
+    },
+    {
+        "name":"vanille",
+        "anagram":"lenavil",
+        "description":"Une épice sucrée souvent utilisée dans les desserts."
+    },
+    {
+        "name":"safran",
+        "anagram":"nafars",
+        "description":"Une épice rouge utilisée pour sa couleur et sa saveur distinctes."
+    },
+    {
+        "name":"muscade",
+        "anagram":"acudsem",
+        "description":"Une épice sucrée souvent utilisée dans les desserts."
+    },
+    {
+        "name":"cumin",
+        "anagram":"nucim",
+        "description":"Une épice terreux souvent utilisée en cuisine."
+    },
+    {
+        "name":"thym",
+        "anagram":"myht",
+        "description":"Une herbe aromatique utilisée en cuisine."
+    },
+    {
+        "name":"paprika",
+        "anagram":"akirpap",
+        "description":"Une épice rouge souvent utilisée pour la couleur et la saveur."
+    },
+    {
+        "name":"curry",
+        "anagram":"yrcru",
+        "description":"Un mélange d'épices souvent utilisé en cuisine indienne."
+    },
+    {
+        "name":"cacao",
+        "anagram":"ocaac",
+        "description":"La matière de base du chocolat."
+    },
+    {
+        "name":"sucre",
+        "anagram":"ecrus",
+        "description":"Un édulcorant couramment utilisé en cuisine."
+    },
+    {
+        "name":"sel",
+        "anagram":"les",
+        "description":"Un condiment essentiel pour assaisonner les plats."
+    },
+    {
+        "name":"beurre",
+        "anagram":"erreub",
+        "description":"Un produit laitier souvent utilisé en cuisine pour sa saveur riche."
+    },
+    {
+        "name":"lait",
+        "anagram":"tila",
+        "description":"Un liquide blanc produit par les mamelles des mammifères."
+    },
+    {
+        "name":"oeuf",
+        "anagram":"uefo",
+        "description":"Un aliment riche en protéines souvent utilisé en cuisine."
+    },
+    {
+        "name":"farine",
+        "anagram":"nirefa",
+        "description":"Une poudre utilisée comme ingrédient de base dans la cuisson."
+    },
+    {
+        "name":"levure",
+        "anagram":"everul",
+        "description":"Un agent de levée utilisé dans la pâtisserie."
+    },
+    {
+        "name":"vanilline",
+        "anagram":"villianne",
+        "description":"Un arôme artificiel souvent utilisé pour donner une saveur de vanille."
+    },
+    {
+        "name":"crème",
+        "anagram":"èrcem",
+        "description":"Un produit laitier épais utilisé en cuisine et en pâtisserie."
+    },
+    {
+        "name":"yaourt",
+        "anagram":"troyau",
+        "description":"Un produit laitier fermenté souvent consommé comme collation."
+    },
+    {
+        "name":"fromage",
+        "anagram":"efamorg",
+        "description":"Un produit laitier solide souvent utilisé en cuisine."
+    },
+    {
+        "name":"chocolat",
+        "anagram":"chatocol",
+        "description":"Un produit sucré fabriqué à partir de cacao."
+    },
+    {
+        "name":"amande",
+        "anagram":"ademna",
+        "description":"Une noix généralement consommée comme collation ou en pâtisserie."
+    },
+    {
+        "name":"cacahuète",
+        "anagram":"acaètechu",
+        "description":"Une petite noix souvent consommée comme collation."
+    },
+    {
+        "name":"pistache",
+        "anagram":"acetphis",
+        "description":"Une petite noix verte souvent consommée comme collation."
+    },
+    {
+        "name":"pruneau",
+        "anagram":"nueurap",
+        "description":"Une prune séchée souvent consommée comme collation."
+    },
+    {
+        "name":"dates",
+        "anagram":"setad",
+        "description":"Les fruits sucrés du palmier, souvent consommés comme collation."
+    }
+]

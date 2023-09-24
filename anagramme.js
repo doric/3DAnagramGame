@@ -1,0 +1,363 @@
+function startAnagramGame(foodList) {
+    let attempts = 0; // Compteur d'échecs
+    const maxAttempts = 3; // Nombre maximum d'échecs avant de montrer la réponse
+
+    const showAnswerButton = document.getElementById('showAnswerButton');
+    const nextAnagramButton = document.getElementById('nextAnagramButton');
+
+    // Sélectionnez un aliment aléatoire pour commencer le jeu
+    const randomIndex = Math.floor(Math.random() * foodList.length);
+    let currentFoodIndex = randomIndex;
+
+    let randomFood = foodList[currentFoodIndex];
+
+    const clickSound = new Howl({ src: ['click.mp3'] });
+    const successSound = new Howl({ src: ['success.mp3'] });
+	// Récupérez l'élément DOM pour afficher la description
+	const descriptionElement = document.getElementById('foodDescription');
+
+    let isSolved = false;
+    let score = 0;
+    let selectedLetter = null;
+    let textMesh;
+	let backgroundCube;
+	// Répertoire contenant les fichiers audio
+	const directoryPath = './audios'; // Remplacez par le chemin de votre répertoire audio
+
+	// Liste des extensions de fichiers audio supportées
+	const audioExtensions = ['.mp3', '.wav', '.ogg', '.flac']; // Ajoutez d'autres extensions si nécessaire
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 5;
+
+    const renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+	renderer.setClearColor(0xffffff); 
+    document.getElementById('scene-container').appendChild(renderer.domElement);
+
+    const fontLoader = new THREE.FontLoader();
+
+    fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', (font) => {
+        initializeGame(font);
+        animate();
+    });
+
+	// Fonction pour récupérer la liste des noms de fichiers dans le dossier "photos"
+	async function getPhotoFileNames() {
+	  const response = await fetch('/photos/');
+	  const data = await response.text();
+	  const parser = new DOMParser();
+	  const xmlDoc = parser.parseFromString(data, 'text/html');
+	  const fileNodes = xmlDoc.querySelectorAll('a');
+
+	  const fileNames = [];
+	  fileNodes.forEach((node) => {
+		const fileName = node.textContent;
+		// Filtrer uniquement les fichiers d'images par extension (par exemple, .jpg, .png, .jpeg, .gif, etc.)
+		if (/\.(jpg|jpeg|png|gif)$/i.test(fileName)) {
+			fileNames.push(`./photos/${fileName}`);
+		}
+	  });
+	  return fileNames;
+	}
+
+	// Inside the createBackgroundCarousel function
+	function createBackgroundCarousel(imagePaths) {
+		const loader = new THREE.TextureLoader();
+		const textures = [];
+
+		for (let i = 0; i < imagePaths.length; i++) {
+			const texture = loader.load(imagePaths[i]);
+			texture.generateMipmaps = true;
+			textures.push(texture);
+		}
+
+		const backgroundTexture = new THREE.CubeTexture(textures);
+		const backgroundMaterial = new THREE.MeshBasicMaterial({ envMap: backgroundTexture });
+		const backgroundGeometry = new THREE.BoxGeometry(100, 100, 100); // Adjust the size as needed
+		let backgroundCube = new THREE.Mesh(backgroundGeometry, backgroundMaterial);
+
+		// Set the cube's position and rotation
+		backgroundCube.position.set(0, 0, 0); // Adjust the position as needed
+		backgroundCube.rotation.set(0, Math.PI, 0);
+
+		scene.add(backgroundCube); // Add the cube to the scene
+	}
+
+    function initializeGame(font) {
+        textMesh = createTextMesh(randomFood.anagram, font);
+		textMesh.position.set(-2.5, -0.5, 0);
+        scene.add(textMesh);
+
+        textMesh.addEventListener('dblclick', handleDoubleClick);
+        textMesh.children.forEach((letterMesh) => {
+            letterMesh.addEventListener('mousemove', handleLetterClick);
+        });
+
+        const titleMesh = createTextMesh("Jeu d'Anagramme Culinaire", font, 0.3);
+        titleMesh.position.set(-2.5, 2, 0);
+        scene.add(titleMesh);
+
+        // Ajoutez cette ligne pour masquer le bouton "Montrer la réponse" au début du jeu
+        showAnswerButton.style.display = 'none';
+    }
+
+
+    // Fonction pour gérer l'affichage des boutons
+    function updateButtons() {
+        if (attempts >= maxAttempts) {
+            showAnswerButton.style.display = 'block'; // Afficher le bouton "Montrer la réponse"
+        } else {
+            showAnswerButton.style.display = 'none'; // Cacher le bouton "Montrer la réponse"
+        }
+        if (isSolved) {
+            nextAnagramButton.style.display = 'block';
+            showAnswerButton.style.display = 'none';
+        } else {
+            nextAnagramButton.style.display = 'none';
+        }
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+
+    function handleDoubleClick() {
+        if (!isSolved && randomFood.anagram === randomFood.name) {
+            isSolved = true;
+            successSound.play();
+            score += 10;
+            document.getElementById('score').textContent = score;
+            setTimeout(nextWord, 2000);
+        }
+    }
+
+    function handleLetterClick() {
+        if (!isSolved) {
+            if (selectedLetter === null) {
+                selectedLetter = this;
+                selectedLetter.material = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 });
+            } else if (selectedLetter !== this) {
+                const indexA = textMesh.children.indexOf(selectedLetter);
+                const indexB = textMesh.children.indexOf(this);
+                randomFood.anagram = swapLetters(randomFood.anagram, indexA, indexB);
+				scene.remove(textMesh);
+				textMesh = createTextMesh(randomFood.anagram, textMesh.font);
+				textMesh.position.set(-2.5, -0.5, 0);
+				scene.add(textMesh);
+                selectedLetter.material = new THREE.MeshBasicMaterial({ color: 0xff5722 });
+                selectedLetter = null;
+                clickSound.play();
+            }
+        }
+    }
+
+    function createTextMesh(text, font, size = 0.5) {
+        const textGeometry = createTextGeometry(text, font, size);
+        const textMaterial = new THREE.MeshBasicMaterial({ color: 0xff5722 });
+        const mesh = new THREE.Mesh(textGeometry, textMaterial);
+        mesh.font = font;
+        return mesh;
+    }
+
+    function createTextGeometry(text, font, size) {
+        return new THREE.TextGeometry(text, {
+            font: font,
+            size: size,
+            height: 0.05,
+        });
+    }
+
+    function swapLetters(text, indexA, indexB) {
+        const letters = text.split('');
+        [letters[indexA], letters[indexB]] = [letters[indexB], letters[indexA]];
+        return letters.join('');
+    }
+
+    function nextWord() {
+        scene.remove(textMesh);
+        foodList.splice(currentFoodIndex, 1);
+
+        if (foodList.length === 0) {
+            console.log('No more items in foodList.');
+            return;
+        }
+
+        const randomIndex = Math.floor(Math.random() * foodList.length);
+        randomFood = foodList[randomIndex];
+
+        selectedLetter = null;
+        isSolved = false;
+
+        textMesh = createTextMesh(randomFood.anagram, textMesh.font);
+		textMesh.position.set(-2.5, -0.5, 0);
+        scene.add(textMesh);
+    }
+
+    function handleWindowResize() {
+        const newWidth = window.innerWidth;
+        const newHeight = window.innerHeight;
+        camera.aspect = newWidth / newHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(newWidth, newHeight);
+    }
+
+    function initializeAudio() {
+        const startButton = document.getElementById('startButton');
+        startButton.addEventListener('click', () => {
+            clickSound.play();
+            successSound.play();
+			refreshSceneWithCube();
+			// Appelez la fonction pour obtenir la liste des noms de fichiers
+			getPhotoFileNames().then((fileNames) => {
+			  // Utilisez la liste des noms de fichiers pour créer votre carrousel de photos
+			  createBackgroundCarousel(fileNames);
+			});
+			
+			// Appel de la fonction pour obtenir la liste des noms de fichiers audio
+			getAudioFileNames()
+			.then((audioFiles) => {
+				console.log('Audio files:', audioFiles);
+				if (audioFiles.length > 0) {
+					playRandomAudio(audioFiles);
+				}
+			})
+			.catch((error) => {
+				console.error('Error:', error);
+			});
+            startButton.remove();
+        });
+    }
+
+    function handleGuess(event) {
+        if (event.key === 'Enter') {
+            const guessInput = document.getElementById('guessInput');
+            const guess = guessInput.value.trim().toLowerCase();
+            if (guess === randomFood.name.toLowerCase()) {
+                isSolved = true;
+                successSound.play();
+                score += 10;
+                document.getElementById('score').textContent = score;
+                guessInput.value = '';
+                nextWord();
+            } else {
+                attempts++;
+                clickSound.play();
+                updateButtons();
+            }
+        }
+    }
+	
+	function createBackgroundCube(imagePaths) {
+		const loader = new THREE.TextureLoader();
+		const textures = [];
+
+		for (let i = 0; i < imagePaths.length; i++) {
+			const texture = loader.load(imagePaths[i]);
+			texture.generateMipmaps = true;
+			textures.push(texture);
+		}
+
+		const backgroundTexture = new THREE.CubeTexture(textures);
+		const backgroundMaterial = new THREE.MeshBasicMaterial({ envMap: backgroundTexture });
+		const backgroundGeometry = new THREE.BoxGeometry(100, 100, 100); // Adjust the size as needed
+		const cube = new THREE.Mesh(backgroundGeometry, backgroundMaterial);
+
+		// Set the cube's position and rotation
+		cube.position.set(0, 0, 0); // Adjust the position as needed
+		cube.rotation.set(0, Math.PI, 0);
+
+		return cube;
+	}
+
+	
+	function refreshSceneWithCube() {
+		// Remove the existing cube from the scene
+		scene.remove(backgroundCube);
+
+		// Appelez la fonction pour obtenir la liste des noms de fichiers
+		getPhotoFileNames().then((fileNames) => {
+		  // Utilisez la liste des noms de fichiers pour créer votre carrousel de photos
+		  createBackgroundCarousel(fileNames);
+		});
+	}
+
+	// Fonction pour jouer un fichier audio aléatoire
+    function playRandomAudio(audioFiles) {
+        if (audioFiles.length === 0) {
+            console.log('Aucun fichier audio trouvé dans le répertoire.');
+            return;
+        }
+
+        const randomIndex = Math.floor(Math.random() * audioFiles.length);
+        const randomAudio = new Audio(audioFiles[randomIndex]);
+
+        randomAudio.play();
+
+        // Planifiez la prochaine lecture audio après 1 minute (60000 millisecondes)
+        setTimeout(() => playRandomAudio(audioFiles), 60000);
+    }
+
+
+	// Fonction pour vérifier si un fichier a une extension audio
+	function isAudioFile(filename) {
+	  const ext = path.extname(filename).toLowerCase();
+	  return audioExtensions.includes(ext);
+	}
+
+	// Fonction pour parcourir le répertoire et détecter les fichiers audio
+	async function getAudioFileNames() {
+        try {
+            const response = await fetch(directoryPath);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.text();
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(data, 'text/html');
+            const fileNodes = xmlDoc.querySelectorAll('a');
+
+            const audioFileNames = [];
+            fileNodes.forEach((node) => {
+                const fileName = node.textContent;
+                if (audioExtensions.some(ext => fileName.endsWith(ext))) {
+                    audioFileNames.push(`./audios/${fileName}`);
+                }
+            });
+
+            return audioFileNames;
+        } catch (error) {
+            console.error('Error:', error);
+            return [];
+        }
+    }
+
+    // Ajoutez un gestionnaire d'événement pour le bouton "Montrer la réponse"
+	showAnswerButton.addEventListener('click', () => {
+		attempts = 0;
+		updateButtons();
+		scene.remove(textMesh);
+		textMesh = createTextMesh(randomFood.name, textMesh.font);
+		textMesh.position.set(-2.5, -0.5, 0);
+		scene.add(textMesh);
+		descriptionElement.textContent = randomFood.description; // Afficher la description
+		descriptionElement.style.display = 'block'; // Afficher l'élément de description
+		nextAnagramButton.style.display = 'block';
+	});
+
+	// Ajoutez un gestionnaire d'événement pour le bouton "Passer au prochain anagramme"
+	nextAnagramButton.addEventListener('click', () => {
+		nextWord();
+		attempts = 0; // Réinitialisez le compteur d'échecs
+		updateButtons(); // Mettez à jour l'affichage des boutons
+		descriptionElement.style.display = 'none'; // Cacher l'élément de description
+	});
+    window.addEventListener('load', initializeAudio);
+    window.addEventListener('resize', handleWindowResize);
+    document.getElementById('guessInput').addEventListener('keydown', handleGuess);
+
+    // Appelez updateButtons pour initialiser l'état des boutons
+    updateButtons();
+}
