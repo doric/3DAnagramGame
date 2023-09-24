@@ -1,3 +1,48 @@
+/**
+ * Le code fourni semble être une fonction JavaScript nommée startAnagramGame. Cette fonction semble mettre en place un jeu d'anagrammes sur le Web dans lequel les joueurs déchiffrent des mots liés à la nourriture. Il utilise la bibliothèque Three.js pour les graphiques 3D et permet aux joueurs d'interagir avec les anagrammes en cliquant sur les lettres. Vous trouverez ci-dessous un aperçu des fonctionnalités et composants clés du code :
+ *
+ * Initialisation :
+ *
+ * La fonction prend un paramètre foodList, qui est un tableau d'objets liés à l'alimentation comprenant des anagrammes et d'autres propriétés.
+ * Il définit diverses variables et constantes, notamment le nombre de tentatives autorisées (maxAttempts), les sons et les éléments de la scène.
+ * Graphiques 3D :
+ *
+ * Le code utilise Three.js pour créer une scène 3D pour le rendu du jeu.
+ * Il charge une police pour restituer le texte en 3D et initialise le jeu avec la police chargée.
+ * Il crée un maillage 3D pour afficher le texte de l'anagramme et gère les interactions telles que le double-clic et le clic sur les lettres.
+ * Logique du jeu :
+ *
+ * La logique du jeu inclut la gestion des interactions des joueurs, comme cliquer sur les lettres et double-cliquer sur la bonne réponse.
+ * Il suit le score du joueur et le met à jour en conséquence.
+ * Il permet aux joueurs de passer à l'anagramme suivant une fois résolu ou de révéler la réponse après un certain nombre de tentatives.
+ * Carrousel d'arrière-plan :
+ *
+ * Le code inclut des fonctions permettant de créer un carrousel d'arrière-plan à l'aide d'images provenant d'un répertoire spécifié.
+ * L'audio:
+ *
+ * Il initialise l'audio pour les clics sur les boutons et les sons de réussite.
+ * Il lit des fichiers audio aléatoires à partir d'un répertoire et planifie la prochaine lecture audio après une durée fixe.
+ * Écouteurs d'événements :
+ *
+ * Les écouteurs d'événements sont configurés pour divers éléments, tels que les boutons, le redimensionnement des fenêtres et les entrées de l'utilisateur pour deviner les réponses.
+ * Fonctionnalité des boutons :
+ *
+ * Des boutons tels que « Afficher la réponse » et « Anagramme suivant » disposent d'écouteurs d'événements pour déclencher des actions dans le jeu, telles que révéler la réponse ou passer au mot suivant.
+ * La gestion des erreurs:
+ *
+ * Il existe des mécanismes de gestion des erreurs pour récupérer les fichiers des répertoires.
+ * Manipulation du DOM :
+ *
+ * Le code manipule le DOM pour mettre à jour l'affichage des boutons, des scores et des descriptions.
+ * Flux global :
+ *
+ * Le jeu démarre lorsqu'un bouton "Démarrer" est cliqué.
+ * Les joueurs déchiffrent les mots liés à la nourriture en cliquant sur les lettres.
+ * Ils peuvent révéler la réponse ou passer à l’anagramme suivante s’ils le souhaitent.
+ * Veuillez noter que ce code est conçu pour être utilisé dans un environnement Web et suppose que vous disposez des éléments HTML et CSS nécessaires configurés pour fonctionner avec lui. De plus, il existe des références à des ressources externes telles que des polices, des fichiers audio et des chemins d'images, qui doivent être configurées de manière appropriée dans votre projet.
+ * [startAnagramGame Fonction pour démarrer le jeu d'anagramme]
+ * @param foodList
+ */
 function startAnagramGame(foodList) {
     let attempts = 0; // Compteur d'échecs
     const maxAttempts = 3; // Nombre maximum d'échecs avant de montrer la réponse
@@ -30,6 +75,8 @@ function startAnagramGame(foodList) {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     camera.position.z = 5;
+    let usedWords = [];
+    let initialFoodList = foodList;
 
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -85,7 +132,19 @@ function startAnagramGame(foodList) {
 		scene.add(backgroundCube); // Add the cube to the scene
 	}
 
+    // Fonction pour permuter aléatoirement deux caractères dans une chaîne
+    function shuffleString(input) {
+        const characters = input.split('');
+        for (let i = characters.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [characters[i], characters[j]] = [characters[j], characters[i]];
+        }
+        return characters.join('');
+    }
+
+
     function initializeGame(font) {
+        randomFood.anagram = shuffleString(randomFood.anagram);
         textMesh = createTextMesh(randomFood.anagram, font);
 		textMesh.position.set(-2.5, -0.5, 0);
         scene.add(textMesh);
@@ -178,10 +237,19 @@ function startAnagramGame(foodList) {
 
     function nextWord() {
         scene.remove(textMesh);
-        foodList.splice(currentFoodIndex, 1);
-
         if (foodList.length === 0) {
-            console.log('No more items in foodList.');
+            descriptionElement.textContent = 'Aucun mot restant dans la liste.';
+            foodList = initialFoodList;
+            usedWords = []; // Réinitialisez usedWords si nécessaire.
+            return;
+        }
+
+        // Créez une liste de mots non utilisés
+        const unusedWords = foodList.filter(food => !usedWords.some(usedFood => usedFood.name === food.name));
+        if (unusedWords.length === 0) {
+            // Affichez un message dans descriptionElement lorsque tous les mots ont été utilisés.
+            descriptionElement.textContent = 'Tous les mots ont été utilisés.';
+            usedWords = []; // Réinitialisez usedWords si nécessaire.
             return;
         }
 
@@ -191,9 +259,14 @@ function startAnagramGame(foodList) {
         selectedLetter = null;
         isSolved = false;
 
+        randomFood.anagram = shuffleString(randomFood.anagram);
         textMesh = createTextMesh(randomFood.anagram, textMesh.font);
 		textMesh.position.set(-2.5, -0.5, 0);
         scene.add(textMesh);
+
+        // Affichez un message dans descriptionElement pour indiquer le nouveau mot.
+        descriptionElement.textContent = 'Nouveau mot : ' + randomFood.anagram;
+        descriptionElement.style.display = 'block';
     }
 
     function handleWindowResize() {
